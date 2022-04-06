@@ -1,38 +1,29 @@
-import React, { useState } from "react";
+import { ITask } from "../../types/tasks";
 import Item from "./Item";
 import style from './List.module.scss';
 
+interface Props{
+    tasks: ITask[],
+    selectTask: (selectedTask: ITask) => void // void não retorna nada conforme a função declarada no ap 
+}
 
 //novo metodo de declarar um componente
-function List() {
-    const [tasks, setTasks] = useState([
-        {
-            task: 'React',
-            time: '02:00:00'
-        },
-        {
-            task: 'JavaScript',
-            time: '01:00:00'
-        },
-        {
-            task: 'TypeScript',
-            time: '03:00:00'
-        }
-    ])
+function List( { tasks, selectTask }: Props) {
+
     return (
         <aside className={style.taskList}>
-            <h2 onClick={() => {
-                setTasks([...tasks, {task: "Study State", time: "05:00:00"}])
-            }}>Daily Studies</h2>
+            <h2>Daily Studies</h2>
             <ul>
-                {tasks.map((item, index) => (
-                    <Item key={index}
+                {tasks.map((item => (
+                    <Item 
+                        key={item.id}
+                        selectTask={selectTask}
                         {...item} /*Desestruturação de objetos, retorna item.task e item.time */
                         /*task={item.task}
                           time={item.time}  
                         */
                     />
-                ))}
+                )))}
                 
             </ul>
         </aside>
